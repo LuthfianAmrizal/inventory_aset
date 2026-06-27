@@ -38,7 +38,6 @@ WORKDIR /var/www/html
 ENV PORT=80
 ENV APP_ENV=production
 ENV APP_DEBUG=false
-ENV APP_KEY=base64:dGVzdF9rZXlfdGVzdF9rZXlfdGVzdF9rZXlfdGVzdF9rZXk=
 
 # Copy only composer and package files first to leverage build cache
 COPY composer.json composer.lock ./
@@ -56,9 +55,6 @@ RUN npm run build
 
 # Generate autoload files and run composer dump-autoload scripts (like package:discover)
 RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-# Copy the environment template if .env doesn't exist
-RUN cp .env.example .env
 
 # Set directory permissions for Laravel storage and cache directories
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
